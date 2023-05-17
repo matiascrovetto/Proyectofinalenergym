@@ -81,14 +81,13 @@ class Profile(db.Model):
         return {
             "id": self.id,
             "biography": self.biography,
-            "github": self.github
+            
         }
 
     def serialize_with_user(self):
         return {
             "id": self.id,
             "biography": self.username,
-            "github": self.is_active,
             "username": self.user.serialize(),
         }
 
