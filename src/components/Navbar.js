@@ -64,7 +64,10 @@ const Navbar = () => {
                                             <Link className="nav-link" to="/Contact">Contact Us</Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link className="nav-link" to="/Notfound">Login</Link>
+                                            <Link className="nav-link" to="/Login">Login</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to="Register">Register</Link>
                                         </li>
                                     </ul>
                                     <form className="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
