@@ -10,9 +10,10 @@ import Notfound from './pages/Notfound';
 import Login  from './pages/Login';
 import Register from './pages/Register';
 
+
+
 const App = () => {
   return (
-
     <BrowserRouter>
       <Navbar />
       <Routes>

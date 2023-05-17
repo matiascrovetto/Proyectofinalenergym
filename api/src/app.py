@@ -1,9 +1,7 @@
 import os
-from datetime import datetime
 from flask import Flask, request, jsonify
 from flask_migrate import Migrate
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager, get_jwt_identity, jwt_required, create_access_token
 from models import db, User, Profile, Role
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -16,11 +14,9 @@ app.config['DEBUG'] = True
 app.config['ENV'] = 'development'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
-app.config['JWT_SECRET_KEY'] = 'secret-key'
 
 db.init_app(app)
 Migrate(app, db) 
-jwt = JWTManager(app)
 CORS(app)
 
 @app.route('/')
@@ -48,15 +44,6 @@ def login():
 
     if not check_password_hash(user.password, password):
         return jsonify({ "msg": "Username/Password are incorrects"}), 401
-
-    access_token = create_access_token(identity=user.id)
-
-    data = {
-        "access_token": access_token,
-        "user": user.serialize_with_profile()
-    }
-
-    return jsonify(data), 200
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -96,18 +83,7 @@ def register():
     user.profile = profile
     user.save()
 
-   
-    access_token = create_access_token(identity=user.id)
-
-    data = {
-        "access_token": access_token,
-        "user": user.serialize_with_profile()
-    }
-
-    return jsonify(data), 200
-
 @app.route('/users', methods=['GET', 'POST'])
-@jwt_required() 
 def obtener_crear_users():
     if request.method == 'GET':
         users = User.query.all()
@@ -121,9 +97,6 @@ def obtener_crear_users():
         is_active = request.json.get('is_active', True)
      
         biography = request.json.get('biography', "")
-        github = request.json.get('github', "")
-        linkedin = request.json.get('linkedin', "")
-        instagram = request.json.get('instagram', "")
 
         
         roles = request.json.get('roles')
@@ -137,9 +110,7 @@ def obtener_crear_users():
 
         profile = Profile()
         profile.biography = biography
-        profile.github = github
-        profile.linkedin = linkedin
-        profile.instagram = instagram
+        
 
         if len(roles) > 0:
             for roles_id in roles:

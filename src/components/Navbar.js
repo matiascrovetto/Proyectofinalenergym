@@ -69,6 +69,9 @@ const Navbar = () => {
                                         <li className="nav-item">
                                             <Link className="nav-link" to="Register">Register</Link>
                                         </li>
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to="Profile">Profile</Link>
+                                        </li>
                                     </ul>
                                     <form className="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
                                         <button className="btn  my-2 my-sm-0 nav_search-btn" type="submit" />
