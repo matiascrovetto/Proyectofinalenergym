@@ -2,7 +2,8 @@ import os
 from flask import Flask, request, jsonify
 from flask_migrate import Migrate
 from flask_cors import CORS
-from models import db, User, Profile, Role
+from flask_jwt_extended import JWTManager, get_jwt_identity, jwt_required, create_access_token
+from models import db, User, Profile
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -25,64 +26,6 @@ def main():
         "message": "API OK"
     }), 200
 
-@app.route('/login', methods=['POST'])
-def login():
-
-    username = request.json.get('username')
-    password = request.json.get('password')
-
-    if not username:
-        return jsonify({ "msg": "Username is required"}), 422
-
-    if not password:
-        return jsonify({ "msg": "Password is required"}), 422
-
-    user = User.query.filter_by(username=username).first()
-
-    if not user:
-        return jsonify({ "msg": "Username/Password are incorrects"}), 401
-
-    if not check_password_hash(user.password, password):
-        return jsonify({ "msg": "Username/Password are incorrects"}), 401
-
-@app.route('/register', methods=['POST'])
-def register():
-
-    
-    username = request.json.get('username')
-    password = request.json.get('password')
-
-  
-    roles = request.json.get('roles')
-
-    if not username:
-        return jsonify({ "msg": "Username is required"}), 422
-
-    if not password:
-        return jsonify({ "msg": "Password is required"}), 422
-
-    user = User.query.filter_by(username=username).first()
-
-    if user:
-        return jsonify({ "msg": "User already exists"}), 400
-
-    
-    user = User()
-    user.username = username
-    user.password = generate_password_hash(password)
-    user.is_active = True
-
-    profile = Profile()
-
-    if len(roles) > 0:
-        for roles_id in roles:
-            role = Role.query.get(roles_id)
-            user.roles.append(role)
-
-    
-    user.profile = profile
-    user.save()
-
 @app.route('/users', methods=['GET', 'POST'])
 def obtener_crear_users():
     if request.method == 'GET':
@@ -91,18 +34,37 @@ def obtener_crear_users():
         return jsonify(users)
 
     if request.method == 'POST':
-      
+        # Datos de la tabla "users"
         username = request.json.get('username')
         password = request.json.get('password')
         is_active = request.json.get('is_active', True)
-     
+        ## Datos de la tabla "profiles"
         biography = request.json.get('biography', "")
+        github = request.json.get('github', "")
+        linkedin = request.json.get('linkedin', "")
+        instagram = request.json.get('instagram', "")
+
+    
 
         
-        roles = request.json.get('roles')
+                
 
-        
-            
+        """ 
+        user = User()
+        user.username = username
+        user.password = generate_password_hash(password)
+        user.is_active = is_active
+        user.save()
+
+        profile = Profile()
+        profile.biography = biography
+        profile.github = github
+        profile.linkedin = linkedin
+        profile.instagram = instagram
+        profile.users_id = user.id
+        profile.save() 
+        """
+
         user = User()
         user.username = username
         user.password = generate_password_hash(password)
@@ -110,14 +72,11 @@ def obtener_crear_users():
 
         profile = Profile()
         profile.biography = biography
-        
+        profile.github = github
+        profile.linkedin = linkedin
+        profile.instagram = instagram
 
-        if len(roles) > 0:
-            for roles_id in roles:
-                role = Role.query.get(roles_id)
-                user.roles.append(role)
-
-        
+        # usando el relationship para crear el usuario con su perfil
         user.profile = profile
         user.save()
 
