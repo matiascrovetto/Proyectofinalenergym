@@ -1,6 +1,6 @@
 import React from "react"
 
-export const Contact = () => {
+export const Profile = () => {
     return (<section className="vh-100" style={{backgroundColor: '#f4f5f7'}}>
     <div className="container py-5 h-100">
       <div className="row d-flex justify-content-center align-items-center h-100">

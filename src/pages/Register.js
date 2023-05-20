@@ -1,41 +1,45 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react'
+import { Context } from '../store/AppContext'
+import { useNavigate } from 'react-router-dom';
+import Alert from '../components/Alert';
 
-export const Register = () => {
-          return (
-      
-            <section className="vh-50 bg-image my-5" style={{backgroundImage: 'url("")'}}>
-              <div className="mask d-flex align-items-center h-100 gradient-custom-3">
-                <div className="container h-100">
-                  <div className="row d-flex justify-content-center align-items-center h-100">
-                    <div className="col-12 col-md-9 col-lg-7 col-xl-6">
-                      <div className="card" style={{borderRadius: '15px'}}>
-                        <div className="card-body p-5">
-                          <h2 className="text-uppercase text-center mb-5">Create an account</h2>
-                          <form>
-                      
-                            <div className="form-outline mb-4">
-                              <input type="email" id="form3Example3cg" className="form-control form-control-lg" />
-                              <label className="form-label" htmlFor="form3Example3cg">Your Email</label>
-                            </div>
-                            <div className="form-outline mb-4">
-                              <input type="password" id="form3Example4cg" className="form-control form-control-lg" />
-                              <label className="form-label" htmlFor="form3Example4cg">Password</label>
-                            </div>
-                            <div className="d-flex justify-content-center">
-                              <button type="button" className="btn btn-warning btn-block btn-lg gradient-custom-4 text-body">Register</button>
-                            </div>
-                            <p className="text-center text-muted mt-5 mb-0">Have already an account? <Link to="/Login" className="fw-bold text-body"><u>Login here</u></Link></p>
-                          </form>
+const Register = () => {
+    const { store: { error, currentUser }, actions } = useContext(Context);
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+        if(currentUser !== null) navigate('/')
+    }, [])
+
+    return (
+        <div className="container">
+            <div className="row">
+                <div className="col-md-12">
+                    {
+                        !!error && (
+                            <Alert color={"danger"} text={error.msg} className={""} />
+                        )
+                    }
+                    <form className="form w-50 mx-auto bg-secondary shadow my-5 p-2" onSubmit={(e) => actions.register(e, navigate)}>
+                        <div className="form-group mb-3">
+                            <label htmlFor="username" className="form-label">Username</label>
+                            <input type="email" name="email" id="username" className="form-control" placeholder='john.doe@gmail.com' />
                         </div>
-                      </div>
-                    </div>
-                  </div>
+
+                        <div className="form-group mb-3">
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <input type="password" name="password" id="password" className="form-control" placeholder='********' />
+                        </div>
+
+                        <input type="hidden" name="role" id='role' value="2" />
+
+                        <button className="btn btn-primary btn-sm py-2 w-100">Register</button>
+                    </form>
                 </div>
-              </div>
-            </section>
-          );
-        }
-    
+            </div>
+        </div>
+    )
+}
 
 export default Register;

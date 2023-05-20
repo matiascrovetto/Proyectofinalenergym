@@ -1,8 +1,10 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { Context } from '../store/AppContext'
 
 
 const Navbar = () => {
+    const { store: { currentUser }, actions: { logout } } = useContext(Context);
     return (
         <div className="hero_area">
 
@@ -67,15 +69,22 @@ const Navbar = () => {
                                             <Link className="nav-link" to="/Login">Login</Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link className="nav-link" to="Register">Register</Link>
+                                            <Link className="nav-link" to="/Register">Register</Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link className="nav-link" to="Profile">Profile</Link>
+                                            <Link className="nav-link" to="/Profile">Profile</Link>
                                         </li>
+                                        
+                                        <button type="button" class="btn-close" onClick={logout}>Logout</button>
+                                        
+                                        
+                                       
+                                    
+                    
+                                        
+                                        
                                     </ul>
-                                    <form className="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
-                                        <button className="btn  my-2 my-sm-0 nav_search-btn" type="submit" />
-                                    </form>
+                                    
                                 </div>
                             </div>
                         </nav>
