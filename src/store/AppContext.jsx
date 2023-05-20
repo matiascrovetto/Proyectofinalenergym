@@ -11,7 +11,7 @@ const injectContext = PassComponent => {
             getStore: () => state.store,
             getActions: () => state.actions,
             setStore: (updateStore) => setState({
-                store: Object.assign(state.store, updateStore), 
+                store: Object.assign(state.store, updateStore),
                 actions: { ...state.actions }
             })
         }));
@@ -19,7 +19,7 @@ const injectContext = PassComponent => {
         useEffect(() => {
             state.actions.checkCurrentUser();
 
-            if(state.store.currentUser !== null){
+            if (state.store.currentUser !== null) {
                 state.actions.getUsers();
                 state.actions.getMessages();
             }
@@ -27,12 +27,12 @@ const injectContext = PassComponent => {
         }, [])
 
         useEffect(() => {
-            if(state.store.currentUser !== null){
+            if (state.store.currentUser !== null) {
                 state.actions.getUsers();
                 state.actions.getMessages();
             }
-        }, [state.store.currentUser]) 
-        
+        }, [state.store.currentUser])
+
         return (
             <Context.Provider value={state}>
                 <PassComponent {...props} />

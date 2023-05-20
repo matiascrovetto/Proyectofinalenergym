@@ -81,7 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.log(error.message)
                 }
             },
-
+            
             logout: () => {
                 if(sessionStorage.getItem('currentUser')){
                     setStore({
@@ -118,7 +118,27 @@ const getState = ({ getStore, getActions, setStore }) => {
                     
                 }
             },
-            
+            getMessages: async () => {
+                try {
+                    const { currentUser, API_URL } = getStore()
+                    const options = {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${currentUser?.access_token}`
+                        }
+                    }
+                    const response = await fetch(`${API_URL}/messages`, options)
+                    const data = await response.json();
+
+                    setStore({
+                        messages: data
+                    })
+
+                } catch (error) {
+                    
+                }
+            }
         }
     }
 }

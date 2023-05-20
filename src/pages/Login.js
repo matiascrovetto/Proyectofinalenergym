@@ -10,7 +10,7 @@ const Login = () => {
 
 
     useEffect(() => {
-        if(currentUser !== null) navigate('/')
+        if (currentUser !== null) navigate('/')
     }, [])
 
     return (

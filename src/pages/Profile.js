@@ -1,14 +1,14 @@
 import React from "react"
 
 export const Profile = () => {
-    return (<section className="vh-100" style={{backgroundColor: '#f4f5f7'}}>
+  return (<section className="vh-100" style={{ backgroundColor: '#f4f5f7' }}>
     <div className="container py-5 h-100">
       <div className="row d-flex justify-content-center align-items-center h-100">
         <div className="col col-lg-6 mb-4 mb-lg-0">
-          <div className="card mb-3" style={{borderRadius: '.5rem'}}>
+          <div className="card mb-3" style={{ borderRadius: '.5rem' }}>
             <div className="row g-0">
-              <div className="col-md-4 gradient-custom text-center text-white" style={{borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem'}}>
-                <img src="https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=2000" alt="Avatar" className="img-fluid my-5" style={{width: '80px'}} />
+              <div className="col-md-4 gradient-custom text-center text-white" style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
+                <img src="https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=2000" alt="Avatar" className="img-fluid my-5" style={{ width: '80px' }} />
                 <h5>Marie Horwitz</h5>
                 <p>Web Designer</p>
                 <i className="far fa-edit mb-5" />
@@ -52,7 +52,7 @@ export const Profile = () => {
       </div>
     </div>
   </section>
-);
+  );
 }
 
 export default Profile

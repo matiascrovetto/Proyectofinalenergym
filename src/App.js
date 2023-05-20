@@ -5,9 +5,9 @@ import About from './pages/About';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Service from './pages/Service';
-import Contact  from './pages/Contact';
+import Contact from './pages/Contact';
 import Notfound from './pages/Notfound';
-import Login  from './pages/Login';
+import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import ProtectedRoute from './utils/ProtectedRoute';
@@ -38,4 +38,4 @@ const App = () => {
   )
 }
 
-export default injectContext (App);
+export default injectContext(App);

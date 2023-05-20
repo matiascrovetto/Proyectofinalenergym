@@ -10,7 +10,7 @@ const Register = () => {
 
 
     useEffect(() => {
-        if(currentUser !== null) navigate('/')
+        if (currentUser !== null) navigate('/')
     }, [])
 
     return (
