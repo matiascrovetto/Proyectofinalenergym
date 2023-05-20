@@ -4,19 +4,19 @@ import { Context } from '../store/AppContext'
 
 
 const Navbar = () => {
-    const { store: { currentUser }, actions: { logout } } = useContext(Context);
+    const { actions: { logout } } = useContext(Context);
     return (
         <div className="hero_area">
 
             <header className="header_section">
                 <div className="container">
                     <nav className="navbar navbar-expand-lg custom_nav-container">
-                        <a className="navbar-brand" href="index.html">
+                        <Link className="navbar-brand" to="/">
                             <img src="images/logo.png" alt="" />
                             <span>
                                 Energym
                             </span>
-                        </a>
+                        </Link>
                         <div className="contact_nav" id>
                             <ul className="navbar-nav ">
                                 <li className="nav-item">
@@ -28,13 +28,13 @@ const Navbar = () => {
                                 <li className="nav-item">
                                     <a className="nav-link" href="service.html">
                                         <img src="images/call.png" alt="" />
-                                        <span>Call : + 01 1234567890</span>
+                                        <span>Call : + 56 913423455</span>
                                     </a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link" href="service.html">
                                         <img src="images/envelope.png" alt="" />
-                                        <span>demo@gmail.com</span>
+                                        <span>Energym@gmail.com</span>
                                     </a>
                                 </li>
                             </ul>
@@ -75,7 +75,7 @@ const Navbar = () => {
                                             <Link className="nav-link" to="/Profile">Profile</Link>
                                         </li>
                                         
-                                        <button type="button" class="btn-close" onClick={logout}>Logout</button>
+                                        <button type="button" class="btn-close" onClick={logout} >Logout</button>
                                         
                                         
                                        

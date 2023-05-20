@@ -11,13 +11,12 @@ const injectContext = PassComponent => {
             getStore: () => state.store,
             getActions: () => state.actions,
             setStore: (updateStore) => setState({
-                store: Object.assign(state.store, updateStore), // { a: 1 } + { b: 2 } => { a: 1, b: 2}
+                store: Object.assign(state.store, updateStore), 
                 actions: { ...state.actions }
             })
         }));
 
         useEffect(() => {
-            // Aqui coloco las funciones que quiero que se ejecuten una vez cargada las imagenes
             state.actions.checkCurrentUser();
 
             if(state.store.currentUser !== null){
