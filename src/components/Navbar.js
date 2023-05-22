@@ -4,56 +4,40 @@ import { Context } from '../store/AppContext'
 
 
 const Navbar = () => {
-    const { actions: { logout } } = useContext(Context);
+    const { store: { currentUser }, actions: { logout } } = useContext(Context);
     return (
-        <div className="hero_area">
-
-            <header className="header_section">
-                <div className="container">
-                    <nav className="navbar navbar-expand-lg custom_nav-container">
-                        <Link className="navbar-brand" to="/">
-                            <img src="images/logo.png" alt="" />
-                            <span>
-                                Energym
-                            </span>
-                        </Link>
-                        <div className="contact_nav" id>
-                            <ul className="navbar-nav ">
-                                <li className="nav-item">
-                                    <a className="nav-link" href="service.html">
-                                        <img src="images/location.png" alt="" />
-                                        <span>Location</span>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="service.html">
-                                        <img src="images/call.png" alt="" />
-                                        <span>Call : + 56 913423455</span>
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link" href="service.html">
-                                        <img src="images/envelope.png" alt="" />
-                                        <span>Energym@gmail.com</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-            </header>
-
-            <section>
-                <div className="container">
-                    <div className="custom_nav2">
-                        <nav className="navbar navbar-expand-lg custom_nav-container ">
-                            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span className="navbar-toggler-icon" />
-                            </button>
-                            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                                <div className="d-flex  flex-column flex-lg-row align-items-center">
-                                    <ul className="navbar-nav">
-                                        <li className="nav-item active">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div className="container-fluid">
+                <Link className="navbar-brand" to="/">ENERGYM</Link>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button><img src="images/logo.png" alt="" />
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {
+                            !!currentUser ?
+                                (
+                                    <>
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to="/Profile">Profile</Link>
+                                        </li>
+                                        <li className="nav-item dropdown">
+                                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                { currentUser?.user?.username || 'Username'}
+                                            </a>
+                                            <ul className="dropdown-menu">
+                                                <li><Link className="dropdown-item" to="/">Home</Link></li>
+                                                <li><Link className="dropdown-item" to="/About">About</Link></li>
+                                                <li><Link className="dropdown-item" to="/Service">Services</Link></li>
+                                                <li><Link className="dropdown-item" to="/Contact">Contact us</Link></li>
+                                                <li><hr className="dropdown-divider" /></li>
+                                                <li><button className="dropdown-item" onClick={logout}>Logout</button></li>
+                                            </ul>
+                                        </li>
+                                    </>
+                                ) : (
+                                    <>
+                                       <li className="nav-item active">
                                             <Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
                                         </li>
                                         <li className="nav-item">
@@ -75,26 +59,18 @@ const Navbar = () => {
                                             <Link className="nav-link" to="/Profile">Profile</Link>
                                         </li>
                                         
-                                        <button type="button" class="btn-close" onClick={logout} >Logout</button>
-                                        
-                                        
-                                       
-                                    
-                    
-                                        
-                                        
-                                    </ul>
-                                    
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </section></div>
-            
-    );
-};
+                                    </>
+                                )
+                        }
 
+
+                    </ul>
+                    
+                </div>
+            </div>
+        </nav>
+    )
+}
 
 
 

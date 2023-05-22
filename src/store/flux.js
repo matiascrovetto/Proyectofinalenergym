@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
-            API_URL: 'https://5000-matiascrove-proyectofin-e6rzohd00j7.ws-us97.gitpod.io',
+            API_URL: 'https://5000-matiascrove-proyectofin-1fos3yt536i.ws-us97.gitpod.io',
             currentUser: null,
             error: null,
             users: null,

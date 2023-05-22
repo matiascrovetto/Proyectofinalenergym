@@ -15,11 +15,13 @@ import injectContext, { Context } from './store/AppContext';
 
 
 
+
 const App = () => {
   const { store: { currentUser } } = useContext(Context);
   return (
     <BrowserRouter>
       <Navbar />
+      
       <Routes>
         <Route path={"/"} element={<Home />} />
         <Route path={"/About"} element={<About />} />
