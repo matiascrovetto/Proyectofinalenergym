@@ -1,47 +1,43 @@
 import { createContext, useEffect, useState } from "react";
 import getState from "./flux";
 
-export const Context = createContext(null)
+export const Context = createContext(null);
 
 const injectContext = PassComponent => {
+  const StoreWrapper = props => {
+    const [state, setState] = useState(getState({
+      getStore: () => state.store,
+      getActions: () => state.actions,
+      setStore: (updateStore) => setState({
+        store: Object.assign(state.store, updateStore),
+        actions: { ...state.actions }
+      })
+    }));
 
-    const StoreWrapper = props => {
+    useEffect(() => {
+      state.actions.checkCurrentUser();
 
-        const [state, setState] = useState(getState({
-            getStore: () => state.store,
-            getActions: () => state.actions,
-            setStore: (updateStore) => setState({
-                store: Object.assign(state.store, updateStore),
-                actions: { ...state.actions }
-            })
-        }));
+      if (state.store.currentUser !== null) {
+        state.actions.getUsers();
+        state.actions.getMessages();
+      }
+    }, []);
 
-        useEffect(() => {
-            state.actions.checkCurrentUser();
+    useEffect(() => {
+      if (state.store.currentUser !== null) {
+        state.actions.getUsers();
+        state.actions.getMessages();
+      }
+    }, [state.store.currentUser]);
 
-            if (state.store.currentUser !== null) {
-                state.actions.getUsers();
-                state.actions.getMessages();
-            }
+    return (
+      <Context.Provider value={state}>
+        <PassComponent {...props} />
+      </Context.Provider>
+    );
+  };
 
-        }, [])
-
-        useEffect(() => {
-            if (state.store.currentUser !== null) {
-                state.actions.getUsers();
-                state.actions.getMessages();
-            }
-        }, [state.store.currentUser])
-
-        return (
-            <Context.Provider value={state}>
-                <PassComponent {...props} />
-            </Context.Provider>
-        )
-    }
-
-    return StoreWrapper;
-
-}
+  return StoreWrapper;
+};
 
 export default injectContext;

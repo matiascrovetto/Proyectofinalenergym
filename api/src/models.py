@@ -1,10 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
+
 db = SQLAlchemy()
 
 roles_users = db.Table(
     'roles_users',
-    db.Column('roles_id', db.Integer, db.ForeignKey('roles.id'), nullable=False, primary_key=True),
-    db.Column('users_id', db.Integer, db.ForeignKey('users.id'), nullable=False, primary_key=True)
+    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'), primary_key=True),
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True)
 )
 
 class User(db.Model):
@@ -13,9 +14,8 @@ class User(db.Model):
     username = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(120), nullable=False)
     is_active = db.Column(db.Boolean(), default=True)
-    profile = db.relationship('Profile', uselist=False, backref="user") 
-    roles = db.relationship('Role', secondary=roles_users)
-
+    profile = db.relationship('Profile', uselist=False, backref="user", cascade="all, delete-orphan")
+    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 
     def serialize(self):
         return {
@@ -48,8 +48,7 @@ class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=True)
-    users = db.relationship('User', secondary=roles_users)
-    
+
     def serialize(self):
         return {
             "id": self.id,
@@ -67,26 +66,28 @@ class Role(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+
 class Profile(db.Model):
-    __tablename__ = 'profiles'
     id = db.Column(db.Integer, primary_key=True)
-    biography = db.Column(db.Text(), default="")
-    instagram = db.Column(db.String(100), default="")
-    users_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, unique=True)
+    usuario = db.Column(db.String(100))
+    direccion = db.Column(db.String(100))
+    edad = db.Column(db.Integer)
+    sexo = db.Column(db.String(20))
+    estatura = db.Column(db.Integer)
+    peso = db.Column(db.Integer)
+    enfermedad = db.Column(db.String(200))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, unique=True)
 
     def serialize(self):
         return {
             "id": self.id,
-            "biography": self.biography,
-            "instagram": self.instagram
-        }
-
-    def serialize_with_user(self):
-        return {
-            "id": self.id,
-            "biography": self.username,
-            "instagram": self.is_active,
-            "username": self.user.serialize(),
+            "usuario": self.usuario,
+            "direccion": self.direccion,
+            "edad": self.edad,
+            "sexo": self.sexo,
+            "estatura": self.estatura,
+            "peso": self.peso,
+            "enfermedad": self.enfermedad,
         }
 
     def save(self):
@@ -99,5 +100,3 @@ class Profile(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-
-
