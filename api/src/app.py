@@ -139,15 +139,18 @@ def obtener_crear_users():
 
 @app.route('/profiles', methods=['POST'])
 def create_profile():
-    usuario = request.form['usuario']
-    direccion = request.form['direccion']
-    edad = request.form['edad']
-    sexo = request.form['sexo']
-    estatura = request.form['estatura']
-    peso = request.form['peso']
-    enfermedad = request.form['enfermedad']
-
-    profile = Profile(usuario=usuario, direccion=direccion, edad=edad, sexo=sexo, estatura=estatura, peso=peso, enfermedad=enfermedad)
+    print(request.get_json())
+    username = request.json.get('username')
+    usuario = request.json.get('usuario')
+    direccion = request.json.get('direccion')
+    edad = request.json.get('edad')
+    sexo = request.json.get('sexo')
+    estatura = request.json.get('estatura')
+    peso = request.json.get('peso')
+    enfermedad = request.json.get('enfermedad')
+    user = User.query.filter_by(username=username).first()
+    
+    profile = Profile(usuario=usuario, direccion=direccion, edad=edad, sexo=sexo, estatura=estatura, peso=peso, enfermedad=enfermedad, user_id=user.id)
     db.session.add(profile)
     db.session.commit()
 
@@ -180,9 +183,9 @@ def update_profile(id):
     if not profile:
         return jsonify({ "msg": "Profile not found" }), 404
 
-    # Obtén los datos actualizados del perfil del cuerpo de la solicitud
+ 
     updated_profile_data = request.get_json()
-    # Actualiza los campos necesarios del perfil con los datos actualizados
+   
     profile.usuario = updated_profile_data.get('usuario', profile.usuario)
     profile.direccion = updated_profile_data.get('direccion', profile.direccion)
     profile.edad = updated_profile_data.get('edad', profile.edad)
@@ -191,7 +194,7 @@ def update_profile(id):
     profile.peso = updated_profile_data.get('peso', profile.peso)
     profile.enfermedad = updated_profile_data.get('enfermedad', profile.enfermedad)
 
-    # Guarda los cambios en la base de datos
+   
     db.session.commit()
 
     return jsonify({ "msg": "Profile updated successfully" }), 200

@@ -1,7 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
-      API_URL: 'https://5000-matiascrove-proyectofin-rj89phtiszx.ws-us98.gitpod.io',
+      API_URL: 'https://5000-matiascrove-proyectofin-3npfomteive.ws-us98.gitpod.io',
       currentUser: null,
       error: null,
       users: null,
@@ -141,43 +141,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      Profile: async (e, navigate) => {
-        e.preventDefault();
-        try {
-          const { API_URL } = getStore();
-          const { usuario, direccion, edad, sexo, estatura, peso, enfermedad  } = e.target;
-          const credentials = {
-            usuario: usuario.value,
-            direccion: direccion.value,
-            edad: edad.value,
-            sexo: sexo.value,
-            estatura: estatura.value,
-            peso: peso.value,
-            enfermedad: enfermedad.value
-          };
-
-          const options = {
-            method: 'POST',
-            body: JSON.stringify(credentials),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          };
-
-          const response = await fetch(`${API_URL}/guardarperfil`, options);
-          const data = await response.json();
-
-          if (response.ok) {
-          //Los datos se guardaron exitosamente en la base de datos
-            // Realiza las acciones necesarias, como redirigir al usuario o actualizar la interfaz
-          } else {
-            // Hubo un error al guardar los datos en la base de datos
-            // Maneja el error de acuerdo a tus necesidades
-          }
-        } catch (error) {
-          console.log(error.message);
-        }
-      },
+      
 
       
     }

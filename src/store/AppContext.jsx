@@ -1,43 +1,48 @@
 import { createContext, useEffect, useState } from "react";
 import getState from "./flux";
 
-export const Context = createContext(null);
+export const Context = createContext(null)
 
 const injectContext = PassComponent => {
-  const StoreWrapper = props => {
-    const [state, setState] = useState(getState({
-      getStore: () => state.store,
-      getActions: () => state.actions,
-      setStore: (updateStore) => setState({
-        store: Object.assign(state.store, updateStore),
-        actions: { ...state.actions }
-      })
-    }));
 
-    useEffect(() => {
-      state.actions.checkCurrentUser();
+    const StoreWrapper = props => {
 
-      if (state.store.currentUser !== null) {
-        state.actions.getUsers();
-        state.actions.getMessages();
-      }
-    }, []);
+        const [state, setState] = useState(getState({
+            getStore: () => state.store,
+            getActions: () => state.actions,
+            setStore: (updateStore) => setState({
+                store: Object.assign(state.store, updateStore), 
+                actions: { ...state.actions }
+            })
+        }));
 
-    useEffect(() => {
-      if (state.store.currentUser !== null) {
-        state.actions.getUsers();
-        state.actions.getMessages();
-      }
-    }, [state.store.currentUser]);
+        useEffect(() => {
+            // Aqui coloco las funciones que quiero que se ejecuten una vez cargada las imagenes
+            state.actions.checkCurrentUser();
 
-    return (
-      <Context.Provider value={state}>
-        <PassComponent {...props} />
-      </Context.Provider>
-    );
-  };
+            if(state.store.currentUser !== null){
+                state.actions.getUsers();
+                state.actions.getMessages();
+            }
 
-  return StoreWrapper;
-};
+        }, [])
+
+        useEffect(() => {
+            if(state.store.currentUser !== null){
+                state.actions.getUsers();
+                state.actions.getMessages();
+            }
+        }, [state.store.currentUser]) 
+        
+        return (
+            <Context.Provider value={state}>
+                <PassComponent {...props} />
+            </Context.Provider>
+        )
+    }
+
+    return StoreWrapper;
+
+}
 
 export default injectContext;

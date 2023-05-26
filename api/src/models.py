@@ -68,6 +68,7 @@ class Role(db.Model):
 
 
 class Profile(db.Model):
+    __tablename__ = 'profiles'
     id = db.Column(db.Integer, primary_key=True)
     usuario = db.Column(db.String(100))
     direccion = db.Column(db.String(100))
